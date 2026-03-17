@@ -46,6 +46,10 @@
   text-align: center;
 }
 
+.link-shot-takeover a {
+  color: #0000EE;
+}
+
 .link-shot-takeover img.link-shot-cached {
   box-shadow: 0 30px 40px rgba(0,0,0,1);
   margin-top: 20px;

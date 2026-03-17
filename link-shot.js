@@ -9,7 +9,7 @@ var linkShotPreAction = false;
 function hoverLink(e) {
 }
 
-function linkShotHoverLink(elem, image) {
+function linkShotHoverLink(e, elem, image) {
   // Already exists.
   if (document.getElementById(image))
     return;
@@ -44,8 +44,8 @@ function linkShotHoverLink(elem, image) {
   var pos = linkShotGetOffsetPos(elem);
   var left = pos[0];
   wrap.style.top = "-180px";
-  wrap.style.left = (elem.offsetWidth / 2) - 90 + "px";
-
+  wrap.style.left = e.pageX - left - 90 + "px";
+ 
   // Format the cached time in a pretty way.
   var time = elem.getAttribute("data-cached-time");
   if (! time)
@@ -168,8 +168,8 @@ document.addEventListener(
 
       // We have an <a> with a cached image, so display a thumbnail
       // when we're hovering over the link.
-      a.addEventListener('mouseenter', function() {
-	linkShotHoverLink(a, image);
+      a.addEventListener('mouseenter', function(e) {
+	linkShotHoverLink(e, a, image);
       });
     });
   }
