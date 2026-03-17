@@ -61,17 +61,122 @@ function linkShotHoverLink(elem, image) {
     (time? " (cached time: " + fTime + ")": "");
 
   var go = function() {
-    window.history.pushState("link-shot", "", image);
-    for (var i = 0; i < document.styleSheets.length; i++)
-      document.styleSheets[i].disabled = true;
-    document.getElementsByTagName("body")[0].innerHTML =
-      "<style> body { background: #d0d0d0; font-family: sans-serif; margin: 20px; text-align: center; } img { box-shadow: 0 30px 40px rgba(0,0,0,1); } </style>" +
+    var takeover = document.createElement("div");
+    takeover.id = "takeover";
+    takeover.className = "takeover";
+    takeover.innerHTML = "<button class='takeover__close'><img data-close src='/wp-content/plugins/link-shot/close-circle.svg'></button>";
+    var inner = document.createElement("div");
+    inner.className = "takeover__inner";
+    takeover.appendChild(inner);
+
+    inner.innerHTML =
       "Original Link: <a href='" + elem.href + "'>" + elem.href +
       "</a>; <a href='" + image + "'>page cached " + fTime + "</a>.<p>" +
-      "<img src='" + image + "'>";
-    window.scrollTo(0, 0);
-    window.addEventListener("popstate", function() {
-      window.location.reload();
+      "<img class='cached' src='" + image + "'>";
+
+    const openBtn = document.getElementById("openBtn");
+    const content = document.getElementById("takeoverContent");
+
+    let previouslyFocused = null;
+
+    document.body.appendChild(takeover);
+    openTakeover();
+    
+    function trapTabKey(event) {
+      if (event.key !== "Tab") return;
+
+      const focusable = takeover.querySelectorAll(
+        'a[href], area[href], input:not([disabled]), select:not([disabled]), ' +
+          'textarea:not([disabled]), button:not([disabled]), iframe, object, embed, ' +
+          '[tabindex]:not([tabindex="-1"]), [contenteditable="true"]'
+      );
+
+      const items = Array.from(focusable).filter(
+        el => el.offsetParent !== null || el === document.activeElement
+      );
+
+      if (items.length === 0) {
+        event.preventDefault();
+        takeover.focus();
+        return;
+      }
+
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    function onKeyDown(event) {
+      if (!takeover.classList.contains("is-open")) return;
+
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeTakeover();
+        return;
+      }
+
+      trapTabKey(event);
+    }
+
+    function blockBackgroundPointerAndWheel(event) {
+      if (!takeover.classList.contains("is-open")) return;
+      if (!takeover.contains(event.target)) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }
+
+    function openTakeover(html = "") {
+      previouslyFocused = document.activeElement;
+
+      if (html) {
+        content.innerHTML = html;
+      }
+
+      takeover.hidden = false;
+      takeover.classList.add("is-open");
+      document.body.classList.add("no-scroll");
+
+      // Focus the takeover so keyboard input goes there
+      requestAnimationFrame(() => {
+        const autoFocusTarget =
+              takeover.querySelector("[autofocus], button, input, select, textarea, [tabindex]:not([tabindex='-1'])");
+        (autoFocusTarget || takeover).focus();
+      });
+    }
+
+    function closeTakeover() {
+      takeover.classList.remove("is-open");
+      takeover.hidden = true;
+      document.body.classList.remove("no-scroll");
+
+      if (previouslyFocused && previouslyFocused.focus) {
+        previouslyFocused.focus();
+      }
+    }
+
+    takeover.addEventListener("click", (event) => {
+      if (event.target.matches("[data-close]")) {
+        closeTakeover();
+      }
+    });
+
+    document.addEventListener("keydown", onKeyDown, true);
+    document.addEventListener("pointerdown", blockBackgroundPointerAndWheel, true);
+    document.addEventListener("wheel", blockBackgroundPointerAndWheel, {
+      capture: true,
+      passive: false
+    });
+    document.addEventListener("touchmove", blockBackgroundPointerAndWheel, {
+      capture: true,
+      passive: false
     });
   };
 

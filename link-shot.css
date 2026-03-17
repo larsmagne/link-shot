@@ -23,3 +23,71 @@
   opacity: 0;
 }
 
+
+
+/* Fullscreen takeover */
+.takeover {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: none;
+  color: black;
+
+  /* Make the element itself handle scrolling */
+  overflow: auto;
+
+  /* Prevent browser gestures / scroll chaining from leaking through */
+  overscroll-behavior: contain;
+  touch-action: auto;
+
+  background: #d0d0d0;
+  font-family: sans-serif;
+  margin: 0px;
+  text-align: center;
+}
+
+.takeover img.cached {
+  box-shadow: 0 30px 40px rgba(0,0,0,1);
+  margin-top: 20px;
+}
+
+.takeover.is-open {
+  display: block;
+}
+
+.takeover__inner {
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.takeover__close {
+  position: sticky;
+  top: 12px;
+  right: 12px;
+  float: right;
+  z-index: 1;
+  cursor: pointer;
+  background: #d0d0d0;
+}
+
+button.takeover__close:focus {
+  background: #d0d0d0;
+  outline: none;
+}
+
+.takeover__close img {
+  width: 50px;
+  height: 50px;
+}
+
+.takeover__title {
+  margin-top: 0;
+  clear: both;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
