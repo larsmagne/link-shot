@@ -74,45 +74,11 @@ function linkShotHoverLink(elem, image) {
       "</a>; <a href='" + image + "'>page cached " + fTime + "</a>.<p>" +
       "<img class='cached' src='" + image + "'>";
 
-    const openBtn = document.getElementById("openBtn");
-    const content = document.getElementById("takeoverContent");
-
     let previouslyFocused = null;
 
     document.body.appendChild(takeover);
     openTakeover();
     
-    function trapTabKey(event) {
-      if (event.key !== "Tab") return;
-
-      const focusable = takeover.querySelectorAll(
-        'a[href], area[href], input:not([disabled]), select:not([disabled]), ' +
-          'textarea:not([disabled]), button:not([disabled]), iframe, object, embed, ' +
-          '[tabindex]:not([tabindex="-1"]), [contenteditable="true"]'
-      );
-
-      const items = Array.from(focusable).filter(
-        el => el.offsetParent !== null || el === document.activeElement
-      );
-
-      if (items.length === 0) {
-        event.preventDefault();
-        takeover.focus();
-        return;
-      }
-
-      const first = items[0];
-      const last = items[items.length - 1];
-
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    }
-
     function onKeyDown(event) {
       if (!takeover.classList.contains("is-open")) return;
 
@@ -121,24 +87,10 @@ function linkShotHoverLink(elem, image) {
         closeTakeover();
         return;
       }
-
-      trapTabKey(event);
     }
 
-    function blockBackgroundPointerAndWheel(event) {
-      if (!takeover.classList.contains("is-open")) return;
-      if (!takeover.contains(event.target)) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-    }
-
-    function openTakeover(html = "") {
+    function openTakeover() {
       previouslyFocused = document.activeElement;
-
-      if (html) {
-        content.innerHTML = html;
-      }
 
       takeover.hidden = false;
       takeover.classList.add("is-open");
@@ -169,15 +121,6 @@ function linkShotHoverLink(elem, image) {
     });
 
     document.addEventListener("keydown", onKeyDown, true);
-    document.addEventListener("pointerdown", blockBackgroundPointerAndWheel, true);
-    document.addEventListener("wheel", blockBackgroundPointerAndWheel, {
-      capture: true,
-      passive: false
-    });
-    document.addEventListener("touchmove", blockBackgroundPointerAndWheel, {
-      capture: true,
-      passive: false
-    });
   };
 
   wrap.onclick = function(ev) {
@@ -190,6 +133,7 @@ function linkShotHoverLink(elem, image) {
 
     return false;
   };
+
   elem.appendChild(wrap);
   elem.onmouseleave = function() {
     wrap.classList.add("link-shot-hover-fade-out");
