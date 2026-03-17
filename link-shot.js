@@ -5,10 +5,6 @@
 // 3: The URL of the cached image.
 var linkShotPreAction = false;
 
-// Legacy function.
-function hoverLink(e) {
-}
-
 function linkShotHoverLink(e, elem, image) {
   // Already exists.
   if (document.getElementById(image))
@@ -48,7 +44,7 @@ function linkShotHoverLink(e, elem, image) {
  
   // Format the cached time in a pretty way.
   var time = elem.getAttribute("data-cached-time");
-  if (! time)
+  if (!time)
     time = elem.getAttribute("time");
   var timeParsed = new Date(time);
   let options = {  
@@ -80,7 +76,8 @@ function linkShotHoverLink(e, elem, image) {
     openTakeover();
     
     function onKeyDown(event) {
-      if (!takeover.classList.contains("link-shot-is-open")) return;
+      if (!takeover.classList.contains("link-shot-is-open"))
+	return;
 
       if (event.key === "Escape") {
         event.preventDefault();
@@ -159,11 +156,11 @@ document.addEventListener(
       // The Wordpress plugin that checks for broken links rewrites
       // the element and removes the "data-cached-" prefix from the
       // elements!  Like, what...
-      if (! image)
+      if (!image)
 	image = a.getAttribute("image");
 
       // This isn't a link with a cached image, so just bail.      
-      if (! image)
+      if (!image)
 	return;
 
       // We have an <a> with a cached image, so display a thumbnail
@@ -175,18 +172,6 @@ document.addEventListener(
   }
 );
 
-
-linkShotPreAction = function(go, elem, image) {
-  jQuery(elem).off("click");
-  jQuery.ajax({
-    url: "/wp-content/plugins/wse/visit.php",
-    type: "POST",
-    data: {
-      "click": image,
-      "page": window.location.href
-    },
-    dataType: "json",
-    success: go,
-    error: go
-  });
-};
+// Legacy function from earlier versions of this package.
+function hoverLink(e) {
+}
