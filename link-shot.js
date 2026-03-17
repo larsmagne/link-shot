@@ -5,17 +5,6 @@
 // 3: The URL of the cached image.
 var linkShotPreAction = false;
 
-function linkShotGetOffsetPos(elem) {
-  var offsetLeft = 0;
-  var offsetTop = 0;
-  while (elem) {
-    offsetLeft += elem.offsetLeft;
-    offsetTop += elem.offsetTop;
-    elem = elem.offsetParent;
-  }
-  return [offsetLeft, offsetTop];
-}
-
 // Legacy function.
 function hoverLink(e) {
 }
@@ -40,6 +29,17 @@ function linkShotHoverLink(elem, image) {
   };
   img.src = thumb;
 
+  function linkShotGetOffsetPos(elem) {
+    var offsetLeft = 0;
+    var offsetTop = 0;
+    while (elem) {
+      offsetLeft += elem.offsetLeft;
+      offsetTop += elem.offsetTop;
+      elem = elem.offsetParent;
+    }
+    return [offsetLeft, offsetTop];
+  }
+
   // Put a thumbnail of the cached image over the link.
   var pos = linkShotGetOffsetPos(elem);
   var left = pos[0];
@@ -63,16 +63,16 @@ function linkShotHoverLink(elem, image) {
   var go = function() {
     var takeover = document.createElement("div");
     takeover.id = "takeover";
-    takeover.className = "takeover";
-    takeover.innerHTML = "<button class='takeover__close'><img data-close src='/wp-content/plugins/link-shot/close-circle.svg'></button>";
+    takeover.className = "link-shot-takeover";
+    takeover.innerHTML = "<button class='link-shot-takeover__close'><img data-close src='/wp-content/plugins/link-shot/close-circle.svg'></button>";
     var inner = document.createElement("div");
-    inner.className = "takeover__inner";
+    inner.className = "link-shot-takeover__inner";
     takeover.appendChild(inner);
 
     inner.innerHTML =
       "Original Link: <a href='" + elem.href + "'>" + elem.href +
       "</a>; <a href='" + image + "'>page cached " + fTime + "</a>.<p>" +
-      "<img class='cached' src='" + image + "'>";
+      "<img class='link-shot-cached' src='" + image + "'>";
 
     let previouslyFocused = null;
 
@@ -80,7 +80,7 @@ function linkShotHoverLink(elem, image) {
     openTakeover();
     
     function onKeyDown(event) {
-      if (!takeover.classList.contains("is-open")) return;
+      if (!takeover.classList.contains("link-shot-is-open")) return;
 
       if (event.key === "Escape") {
         event.preventDefault();
@@ -93,8 +93,8 @@ function linkShotHoverLink(elem, image) {
       previouslyFocused = document.activeElement;
 
       takeover.hidden = false;
-      takeover.classList.add("is-open");
-      document.body.classList.add("no-scroll");
+      takeover.classList.add("link-shot-is-open");
+      document.body.classList.add("link-shot-no-scroll");
 
       // Focus the takeover so keyboard input goes there
       requestAnimationFrame(() => {
@@ -105,9 +105,9 @@ function linkShotHoverLink(elem, image) {
     }
 
     function closeTakeover() {
-      takeover.classList.remove("is-open");
+      takeover.classList.remove("link-shot-is-open");
       takeover.hidden = true;
-      document.body.classList.remove("no-scroll");
+      document.body.classList.remove("link-shot-no-scroll");
 
       if (previouslyFocused && previouslyFocused.focus) {
         previouslyFocused.focus();

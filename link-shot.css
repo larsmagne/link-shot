@@ -26,7 +26,7 @@
 
 
 /* Fullscreen takeover */
-.takeover {
+.link-shot-takeover {
   position: fixed;
   inset: 0;
   z-index: 999999;
@@ -46,16 +46,16 @@
   text-align: center;
 }
 
-.takeover img.cached {
+.link-shot-takeover img.link-shot-cached {
   box-shadow: 0 30px 40px rgba(0,0,0,1);
   margin-top: 20px;
 }
 
-.takeover.is-open {
+.link-shot-is-open {
   display: block;
 }
 
-.takeover__inner {
+.link-shot-takeover__inner {
   min-height: 100%;
   box-sizing: border-box;
   padding: 24px;
@@ -63,7 +63,7 @@
   margin: 0 auto;
 }
 
-.takeover__close {
+.link-shot-takeover__close {
   position: sticky;
   top: 12px;
   right: 12px;
@@ -73,21 +73,21 @@
   background: #d0d0d0;
 }
 
-button.takeover__close:focus {
+button.link-shot-takeover__close:focus {
   background: #d0d0d0;
   outline: none;
 }
 
-.takeover__close img {
+.link-shot-takeover__close img {
   width: 50px;
   height: 50px;
 }
 
-.takeover__title {
+.link-shot-takeover__title {
   margin-top: 0;
   clear: both;
 }
 
-.no-scroll {
+.link-shot-no-scroll {
   overflow: hidden;
 }
