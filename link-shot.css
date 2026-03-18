@@ -1,3 +1,7 @@
+:root {
+  --link-shot-background: #506080;
+}
+
 .link-shot-hover-wrap {
   position: absolute;
   opacity: 0;
@@ -8,7 +12,7 @@
 
 .link-shot-hover-wrap img {
   cursor: pointer;
-  box-shadow: 0px 0px 10px 0px  rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
   min-width: 150px;
   min-height: 150px;
 }
@@ -31,7 +35,7 @@
   inset: 0;
   z-index: 999999;
   display: none;
-  color: black;
+  color: white;
 
   /* Make the element itself handle scrolling */
   overflow: auto;
@@ -40,14 +44,14 @@
   overscroll-behavior: contain;
   touch-action: auto;
 
-  background: #d0d0d0;
+  background: var(--link-shot-background);
   font-family: sans-serif;
   margin: 0px;
   text-align: center;
 }
 
 .link-shot-takeover a {
-  color: #0000EE;
+  color: #b0b0ff;
 }
 
 .link-shot-takeover img.link-shot-cached {
@@ -74,11 +78,11 @@
   float: right;
   z-index: 1;
   cursor: pointer;
-  background: #d0d0d0;
+  background: var(--link-shot-background);
 }
 
 button.link-shot-takeover__close:focus {
-  background: #d0d0d0;
+  background: var(--link-shot-background);
   outline: none;
 }
 

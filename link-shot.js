@@ -69,7 +69,9 @@ function linkShotHoverLink(e, elem, image) {
 
     inner.innerHTML =
       "Original Link: <a href='" + elem.href + "'>" + elem.href +
-      "</a>; <a href='" + image + "'>page cached " + fTime + "</a>.<p>" +
+      "</a><br>Page cached " + fTime + "<br>" +
+      "<a href='" + image + "'>Direct cache link</a>" +
+      "<p>" +
       "<img class='link-shot-cached' src='" + image + "'>";
 
     var previouslyFocused = null;
