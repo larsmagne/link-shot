@@ -3,7 +3,7 @@
 // 1: The default action to show the cached image.
 // 2: The <a> element we're working with.
 // 3: The URL of the cached image.
-var linkShotPreAction = false;
+var linkShotPreAction;
 
 function linkShotHoverLink(e, elem, image) {
   // Already exists.
