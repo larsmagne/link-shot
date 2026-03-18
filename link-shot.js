@@ -48,12 +48,14 @@ function linkShotHoverLink(e, elem, image) {
   var time = elem.getAttribute("data-cached-time");
   if (!time)
     time = elem.getAttribute("time");
-  var timeParsed = new Date(time);
-  var options = {  
-    year: "numeric", month: "long",  
-    day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false
-  };  
-  var fTime = timeParsed.toLocaleTimeString("en-us", options);   
+  if (time) {
+    var timeParsed = new Date(time);
+    var options = {  
+      year: "numeric", month: "long",  
+      day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false
+    };  
+    var fTime = timeParsed.toLocaleTimeString("en-us", options);
+  }
 
   wrap.title = "Click to view static version of the web page" +
     (time? " (cached time: " + fTime + ")": "");
@@ -68,9 +70,9 @@ function linkShotHoverLink(e, elem, image) {
     takeover.appendChild(inner);
 
     inner.innerHTML =
-      "Original Link: <a href='" + elem.href + "'>" + elem.href +
-      "</a><br>Page cached " + fTime + "<br>" +
-      "<a href='" + image + "'>Direct cache link</a>" +
+      "Original Link: <a href='" + elem.href + "'>" + elem.href + "</a>" +
+      "<br>Page cached " + fTime + "<br>" +
+      (time? "<a href='" + image + "'>Direct cache link</a>": "") +
       "<p>" +
       "<img class='link-shot-cached' src='" + image + "'>";
 
