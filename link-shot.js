@@ -122,6 +122,7 @@ function linkShotHoverLink(e, elem, image) {
 
   wrap.onclick = function(ev) {
     ev.preventDefault();
+    ev.stopPropagation();
 
     if (linkShotPreAction)
       linkShotPreAction(go, elem, image);
