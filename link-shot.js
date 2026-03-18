@@ -19,11 +19,6 @@ function linkShotHoverLink(e, elem, image) {
   // Just about any character is allowed in IDs in HTML5, so just use
   // the URL as the ID.
   wrap.id = image;
-  var thumb = image.replace(/(-scaled)?([.][^.]+)$/, "-150x150$2");
-  img.onload = function() {
-    wrap.classList.add("link-shot-hover-fade-in");
-  };
-  img.src = thumb;
 
   function linkShotGetOffsetPos(elem) {
     var offsetLeft = 0;
@@ -35,6 +30,13 @@ function linkShotHoverLink(e, elem, image) {
     }
     return [offsetLeft, offsetTop];
   }
+
+  // Use the thumbnail version of the image.
+  var thumb = image.replace(/(-scaled)?([.][^.]+)$/, "-150x150$2");
+  img.onload = function() {
+    wrap.classList.add("link-shot-hover-fade-in");
+  };
+  img.src = thumb;
 
   // Put a thumbnail of the cached image over the link.
   var pos = linkShotGetOffsetPos(elem);
