@@ -43,17 +43,17 @@ function linkShotHoverLink(e, elem, image) {
   var left = pos[0];
   wrap.style.top = "-180px";
   wrap.style.left = e.pageX - left - 90 + "px";
- 
+
   // Format the cached time in a pretty way.
   var time = elem.getAttribute("data-cached-time");
   if (!time)
     time = elem.getAttribute("time");
   if (time) {
     var timeParsed = new Date(time);
-    var options = {  
-      year: "numeric", month: "long",  
+    var options = {
+      year: "numeric", month: "long",
       day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false
-    };  
+    };
     var fTime = timeParsed.toLocaleTimeString("en-us", options);
   }
 
@@ -80,7 +80,7 @@ function linkShotHoverLink(e, elem, image) {
 
     document.body.appendChild(takeover);
     openTakeover();
-    
+
     function onKeyDown(event) {
       if (!takeover.classList.contains("link-shot-is-open"))
 	return;
@@ -160,7 +160,7 @@ document.addEventListener(
       if (!image)
 	image = a.getAttribute("image");
 
-      // This isn't a link with a cached image, so just bail.      
+      // This isn't a link with a cached image, so just bail.
       if (!image)
 	return;
 
