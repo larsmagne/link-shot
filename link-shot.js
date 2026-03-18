@@ -47,11 +47,11 @@ function linkShotHoverLink(e, elem, image) {
   if (!time)
     time = elem.getAttribute("time");
   var timeParsed = new Date(time);
-  let options = {  
+  var options = {  
     year: "numeric", month: "long",  
     day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false
   };  
-  let fTime = timeParsed.toLocaleTimeString("en-us", options);   
+  var fTime = timeParsed.toLocaleTimeString("en-us", options);   
 
   wrap.title = "Click to view static version of the web page" +
     (time? " (cached time: " + fTime + ")": "");
@@ -70,7 +70,7 @@ function linkShotHoverLink(e, elem, image) {
       "</a>; <a href='" + image + "'>page cached " + fTime + "</a>.<p>" +
       "<img class='link-shot-cached' src='" + image + "'>";
 
-    let previouslyFocused = null;
+    var previouslyFocused = null;
 
     document.body.appendChild(takeover);
     openTakeover();
@@ -88,23 +88,17 @@ function linkShotHoverLink(e, elem, image) {
 
     function openTakeover() {
       previouslyFocused = document.activeElement;
-
-      takeover.hidden = false;
       takeover.classList.add("link-shot-is-open");
       document.body.classList.add("link-shot-no-scroll");
 
-      // Focus the takeover so keyboard input goes there
-      requestAnimationFrame(() => {
-        const autoFocusTarget =
-              takeover.querySelector("[autofocus], button, input, select, textarea, [tabindex]:not([tabindex='-1'])");
-        (autoFocusTarget || takeover).focus();
-      });
+      // Focus the takeover so keyboard input goes there.
+      takeover.querySelector("button").focus();
     }
 
     function closeTakeover() {
-      takeover.classList.remove("link-shot-is-open");
-      takeover.hidden = true;
       document.body.classList.remove("link-shot-no-scroll");
+      var elem = document.getElementById("takeover");
+      elem.parentNode.removeChild(elem);
 
       if (previouslyFocused && previouslyFocused.focus) {
         previouslyFocused.focus();
