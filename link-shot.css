@@ -10,6 +10,14 @@
   padding: 15px;
 }
 
+.link-shot-error-wrap {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--link-shot-background);
+}
+
 .link-shot-hover-wrap img {
   cursor: pointer;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);

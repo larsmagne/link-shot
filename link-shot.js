@@ -36,6 +36,16 @@ function linkShotHoverLink(e, elem, image) {
   img.onload = function() {
     wrap.classList.add("link-shot-hover-fade-in");
   };
+
+  // If we get an error when loading the thumbnail (this can happen if
+  // the screenshot is too big and Wordpress wasn't able to make the
+  // thumbnail, for instance), just display a square.
+  img.onerror = function() {
+    wrap.classList.add("link-shot-hover-fade-in");
+    img.remove();
+    wrap.innerHTML = "Cached";
+    wrap.classList.add("link-shot-error-wrap");
+  };
   img.src = thumb;
 
   // Put a thumbnail of the cached image over the link.
